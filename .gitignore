@@ -1,0 +1,13 @@
+# LaTeX auxiliary build files
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.blg
+*.synctex.gz
+
+# Keep .pdf tracked so the compiled thesis is viewable on GitHub

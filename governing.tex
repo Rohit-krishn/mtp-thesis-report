@@ -1,0 +1,1183 @@
+\chapter{Physical and Mathematical Formulation}
+\label{chap:physical_mathematical_formulation}
+
+%======================================================================
+\section{Physical Description of Hydrogen Transport}
+\label{sec:physical_description}
+%======================================================================
+
+\subsection{Physical Domain and Dimensionality}
+\label{subsec:physical_domain}
+
+The physical problem considered in this thesis involves non-isothermal,
+transient hydrogen transport, microstructural trapping and detrapping,
+and thermal desorption in ferritic pipeline steel. The specimen is
+represented as an isotropic, homogeneous one-dimensional continuum slab
+of total thickness $L$, or equivalently as a half-domain of thickness
+$a=L/2$ when geometric symmetry is exploited
+\cite{Turnbull1997,Legrand2015,Diaz2020,Marrani2025}.
+
+The spatial domain is therefore defined along the thickness coordinate as
+
+\begin{equation}
+\Omega = \left[0,\frac{L}{2}\right],
+\qquad
+x \in \left[0,\frac{L}{2}\right].
+\label{eq:ch3_domain}
+\end{equation}
+
+Here, $x=0$ represents the mid-plane of the specimen and
+$x=L/2$ represents the external surface through which hydrogen exits
+during thermal desorption. The mid-plane is treated as a plane of
+symmetry, while the external surface is the hydrogen desorption
+boundary.
+
+The one-dimensional approximation is appropriate when the specimen
+thickness is considerably smaller than its lateral dimensions, such
+that the dominant concentration gradients and associated hydrogen
+transport occur through the thickness direction
+\cite{Turnbull1997,Legrand2015,Marrani2025}. Consequently, lateral
+variations in hydrogen concentration are neglected in the present
+formulation.
+
+The model assumes that the specimen temperature is spatially uniform
+at each instant of time. Thus, although the problem is transient and
+non-isothermal, temperature is prescribed as a function of time rather
+than solved from a separate heat-conduction equation. The temperature
+field is therefore represented by
+
+\begin{equation}
+T=T(t).
+\label{eq:ch3_uniform_temperature}
+\end{equation}
+
+%----------------------------------------------------------------------
+\subsection{Hydrogen Species and Concentration Variables}
+\label{subsec:hydrogen_species}
+%----------------------------------------------------------------------
+
+Hydrogen within the ferritic steel matrix is separated into mobile
+lattice hydrogen and hydrogen trapped at microstructural defects
+\cite{Oriani1970,Turnbull1997,Krom2000,Legrand2015}.
+
+\paragraph{Interstitial lattice hydrogen.}
+
+Interstitial lattice hydrogen denotes hydrogen atoms occupying normal
+interstitial lattice sites (NILS) of the body-centered cubic (BCC)
+$\alpha$-iron lattice. This population is considered mobile and is
+responsible for spatial diffusion through the steel matrix
+\cite{Oriani1970,Chen2025,Fallahmohammadi2013,Legrand2015}.
+
+The lattice hydrogen concentration is denoted by
+
+\begin{equation}
+C_L=C_L(x,t),
+\label{eq:ch3_CL_definition}
+\end{equation}
+
+where $C_L represents the molar concentration of mobile lattice
+hydrogen, with units of
+
+\begin{equation}
+[C_L]=\mathrm{mol\,m^{-3}}.
+\end{equation}
+
+The corresponding density of normal interstitial lattice sites is
+denoted by $N_L$, also expressed on a molar-volume basis in the present
+formulation.
+
+\paragraph{Trapped hydrogen.}
+
+Hydrogen may also be captured by microstructural defects that act as
+energetically favourable trapping sites. Examples include
+dislocations, vacancies, grain boundaries, interfaces, and other
+microstructural features capable of producing local potential-energy
+wells \cite{Darken1949,McNabb1963,Oriani1970,Krom2000}.
+
+The material is represented by $n_t$ discrete and non-interacting trap
+populations. The concentration of hydrogen associated with the
+$i$-th trap population is written as
+
+\begin{equation}
+C_T^{(i)}=C_T^{(i)}(x,t),
+\qquad
+i=1,2,\ldots,n_t,
+\label{eq:ch3_CT_definition}
+\end{equation}
+
+with
+
+\begin{equation}
+[C_T^{(i)}]=\mathrm{mol\,m^{-3}}.
+\end{equation}
+
+The total hydrogen concentration at a given location is consequently
+
+\begin{equation}
+C_{\mathrm{H}}(x,t)
+=
+C_L(x,t)
++
+\sum_{i=1}^{n_t} C_T^{(i)}(x,t).
+\label{eq:ch3_total_hydrogen}
+\end{equation}
+
+The distinction between lattice and trapped populations is important
+because only the lattice population is directly transported by the
+Fickian diffusion flux in the present formulation, whereas trapped
+hydrogen exchanges with the lattice through local trapping and
+detrapping reactions.
+
+\paragraph{Lattice occupancy.}
+
+The fractional occupancy of normal interstitial lattice sites is
+defined as
+
+\begin{equation}
+\theta_L(x,t)
+=
+\frac{C_L(x,t)}{N_L}.
+\label{eq:ch3_theta_L}
+\end{equation}
+
+Similarly, the fractional occupancy of the $i$-th trap population is
+
+\begin{equation}
+\theta_T^{(i)}(x,t)
+=
+\frac{C_T^{(i)}(x,t)}{N_T^{(i)}},
+\qquad
+i=1,2,\ldots,n_t,
+\label{eq:ch3_theta_T}
+\end{equation}
+
+where $N_T^{(i)}$ is the total density of available sites belonging to
+the $i$-th trap population.
+
+These occupancy variables provide a convenient representation of the
+finite availability of both lattice and trap sites and are used in the
+McNabb--Foster trapping kinetics
+\cite{Krom2000,Legrand2015,Marrani2025}.
+
+%----------------------------------------------------------------------
+\subsection{Model Identity and Trapping Framework}
+\label{subsec:model_identity}
+%----------------------------------------------------------------------
+
+The present formulation is a one-dimensional, multi-trap,
+non-isothermal transient hydrogen transport model based on
+McNabb--Foster kinetic trapping and detrapping, with an Oriani
+local-equilibrium condition used to establish the initial hydrogen
+distribution \cite{Oriani1970,McNabb1963,Turnbull1997,Krom2000,
+Diaz2020,Marrani2025}.
+
+The two formulations are assigned distinct roles.
+
+\begin{itemize}
+
+    \item \textbf{Oriani local equilibrium} is used to determine the
+    initial partitioning of hydrogen between lattice and trap
+    populations at the initial temperature $T_0$.
+
+    \item \textbf{McNabb--Foster kinetics} governs the subsequent
+    time-dependent exchange of hydrogen between the lattice and the
+    trap populations during the thermal history, including both
+    trapping and detrapping processes.
+
+\end{itemize}
+
+Thus, the present model does not impose instantaneous local
+equilibrium between lattice and trapped hydrogen throughout the
+thermal desorption experiment. Instead, finite trapping and detrapping
+rates are explicitly retained. Consequently, during a finite-rate
+temperature ramp, the system can depart from instantaneous local
+equilibrium and exhibit transient kinetic effects
+\cite{Turnbull1997,Legrand2015,Diaz2020,Marrani2025}.
+
+In the limiting case in which the kinetic exchange becomes
+sufficiently rapid, the McNabb--Foster formulation approaches the
+corresponding local-equilibrium behaviour represented by the Oriani
+isotherm \cite{Turnbull1997,Krom2000}.
+
+%----------------------------------------------------------------------
+\subsection{Fundamental Physical Assumptions}
+\label{subsec:physical_assumptions}
+%----------------------------------------------------------------------
+
+The following assumptions define the physical scope of the present
+hydrogen transport and thermal desorption model:
+
+\begin{enumerate}
+
+    \item \textbf{One-dimensional transport:}
+    hydrogen transport occurs only along the specimen thickness
+    coordinate $x$.
+
+    \item \textbf{Isotropic and homogeneous matrix:}
+    the ferritic steel matrix is treated as a continuum with spatially
+    uniform material properties, unless a temperature dependence is
+    explicitly introduced.
+
+    \item \textbf{Fixed trap population:}
+    the number density of trap sites $N_T^{(i)}$ remains constant
+    throughout the simulation,
+
+    \begin{equation}
+    \frac{\partial N_T^{(i)}}{\partial t}=0.
+    \label{eq:ch3_constant_trap_density}
+    \end{equation}
+
+    Trap generation, annihilation, and microstructural phase
+    transformations are therefore not considered.
+
+    \item \textbf{Non-interacting trap populations:}
+    the individual trap populations are treated as independent
+    populations. Direct hydrogen transfer from one trap population to
+    another is neglected; hydrogen exchange occurs through the mobile
+    lattice population.
+
+    \item \textbf{Fickian lattice diffusion:}
+    only the mobile lattice population contributes directly to the
+    spatial diffusion flux.
+
+    \item \textbf{Stress-free desorption formulation:}
+    stress-assisted hydrogen drift caused by hydrostatic stress
+    gradients is neglected during the thermal desorption calculation.
+
+    \item \textbf{Uniform instantaneous temperature:}
+    the specimen is assumed to have a spatially uniform temperature
+    $T(t)$ at each instant.
+
+    \item \textbf{No independent thermal field solution:}
+    the temperature history is prescribed through the heating
+    schedule rather than being obtained from a coupled heat-transfer
+    calculation.
+
+\end{enumerate}
+
+%======================================================================
+\section{Hydrogen Diffusion}
+\label{sec:hydrogen_diffusion}
+%======================================================================
+
+\subsection{Fickian Lattice Flux}
+\label{subsec:fickian_flux}
+
+The spatial transport of mobile interstitial hydrogen through the
+normal lattice sites is described by Fick's first law
+\cite{Fallahmohammadi2013,Legrand2015,MartinezPaneda2020}:
+
+\begin{equation}
+J_L(x,t)
+=
+-D_L(T)
+\frac{\partial C_L(x,t)}{\partial x},
+\label{eq:ch3_fick_flux}
+\end{equation}
+
+where $J_L$ is the lattice hydrogen flux and $D_L(T)$ is the
+temperature-dependent lattice diffusion coefficient.
+
+The units are
+
+\begin{equation}
+[J_L]=\mathrm{mol\,m^{-2}\,s^{-1}},
+\end{equation}
+
+and
+
+\begin{equation}
+[D_L]=\mathrm{m^2\,s^{-1}}.
+\end{equation}
+
+The negative sign indicates that hydrogen diffuses from regions of
+higher lattice concentration toward regions of lower lattice
+concentration.
+
+%----------------------------------------------------------------------
+\subsection{Temperature-Dependent Lattice Diffusivity}
+\label{subsec:lattice_diffusivity}
+%----------------------------------------------------------------------
+
+The lattice diffusion coefficient is described by an Arrhenius
+temperature dependence:
+
+\begin{equation}
+D_L(T)
+=
+D_0
+\exp\left(
+-\frac{E_L}{RT(t)}
+\right),
+\label{eq:ch3_arrhenius_DL}
+\end{equation}
+
+where $D_0$ is the pre-exponential diffusion coefficient and $E_L$ is
+the activation energy for lattice diffusion. Their units are
+
+\begin{equation}
+[D_0]=\mathrm{m^2\,s^{-1}},
+\qquad
+[E_L]=\mathrm{J\,mol^{-1}}.
+\end{equation}
+
+The universal gas constant is
+
+\begin{equation}
+R=8.31446\,
+\mathrm{J\,mol^{-1}\,K^{-1}},
+\label{eq:ch3_R}
+\end{equation}
+
+and $T(t)$ is the absolute temperature in kelvin.
+
+The temperature dependence of $D_L$ provides the coupling between the
+thermal history and the rate of lattice hydrogen transport.
+
+%----------------------------------------------------------------------
+\subsection{McNabb--Foster Transient Trapping Kinetics}
+\label{subsec:mcnabb_foster}
+%----------------------------------------------------------------------
+
+The exchange of hydrogen between the mobile lattice and each trap
+population is described using the McNabb--Foster kinetic formulation
+\cite{McNabb1963,Turnbull1997,Krom2000,Legrand2015,Marrani2025}.
+
+For the $i$-th trap population,
+
+\begin{equation}
+\frac{\partial C_T^{(i)}}{\partial t}
+=
+j_{\mathrm{trap}}^{(i)}
+=
+k_i(T)
+\frac{N_T^{(i)}}{N_L}
+C_L
+\left(
+1-\frac{C_T^{(i)}}{N_T^{(i)}}
+\right)
+-
+p_i(T)
+C_T^{(i)}
+\left(
+1-\frac{C_L}{N_L}
+\right),
+\label{eq:ch3_mcnabb_molar}
+\end{equation}
+
+where $k_i(T)$ is the trapping rate coefficient and $p_i(T)$ is the
+detrapping rate coefficient.
+
+The first term represents hydrogen transfer from the mobile lattice
+into vacant trap sites. The second term represents release of hydrogen
+from occupied trap sites back into available lattice sites.
+
+Using the fractional occupancies defined previously, the same
+equation can be written as
+
+\begin{equation}
+\frac{\partial \theta_T^{(i)}}{\partial t}
+=
+k_i(T)\theta_L
+\left(1-\theta_T^{(i)}\right)
+-
+p_i(T)\theta_T^{(i)}
+\left(1-\theta_L\right).
+\label{eq:ch3_mcnabb_occupancy}
+\end{equation}
+
+The trapping contribution increases with lattice occupancy
+$\theta_L$ and available trap capacity
+$(1-\theta_T^{(i)})$, whereas the detrapping contribution increases
+with trap occupancy $\theta_T^{(i)}$ and available lattice capacity
+$(1-\theta_L)$.
+
+%----------------------------------------------------------------------
+\subsection{Temperature Dependence of Trapping and Detrapping}
+\label{subsec:trapping_detrapping_arrhenius}
+%----------------------------------------------------------------------
+
+The trapping and detrapping rate coefficients are represented using
+Arrhenius-type expressions based on the lattice hopping activation
+energy and the trap binding energy
+\cite{Turnbull1997,Legrand2015,Diaz2020,Marrani2025}.
+
+The trapping rate coefficient is
+
+\begin{equation}
+k_i(T)
+=
+\nu_t
+\exp\left(
+-\frac{E_L}{RT(t)}
+\right),
+\label{eq:ch3_arrhenius_ki}
+\end{equation}
+
+while the detrapping rate coefficient is
+
+\begin{equation}
+p_i(T)
+=
+\nu_d
+\exp\left(
+-\frac{E_L+E_b^{(i)}}{RT(t)}
+\right)
+=
+\nu_d
+\exp\left(
+-\frac{E_d^{(i)}}{RT(t)}
+\right).
+\label{eq:ch3_arrhenius_pi}
+\end{equation}
+
+Here, $\nu_t$ and $\nu_d$ are the attempt frequencies associated with
+trapping and detrapping, respectively. In the present formulation,
+they may be taken as equal to the characteristic lattice jump or
+Debye frequency,
+
+\begin{equation}
+\nu_t=\nu_d=\nu
+\approx 10^{13}\,\mathrm{s^{-1}},
+\label{eq:ch3_debye_frequency}
+\end{equation}
+
+following the formulation adopted in the cited ferritic-iron
+transport models \cite{Turnbull1997,Legrand2015,Diaz2020,Marrani2025}.
+
+The quantity $E_b^{(i)}$ represents the positive binding energy of the
+$i$-th trap population. With the convention used here,
+
+\begin{equation}
+E_b^{(i)}=-\Delta H_i,
+\qquad
+E_b^{(i)}>0
+\quad\text{for an attractive trap}.
+\label{eq:ch3_binding_energy_convention}
+\end{equation}
+
+The corresponding detrapping activation energy is
+
+\begin{equation}
+E_d^{(i)}
+=
+E_L+E_b^{(i)}.
+\label{eq:ch3_detrapping_energy}
+\end{equation}
+
+Thus, deeper traps possess larger detrapping activation energies and
+require a larger thermal driving force for hydrogen release.
+
+%----------------------------------------------------------------------
+\subsection{Combined Governing Transient Conservation Equation}
+\label{subsec:governing_pde}
+%----------------------------------------------------------------------
+
+Conservation of hydrogen requires that the temporal change in the
+total hydrogen concentration within a differential control volume is
+balanced by the divergence of the mobile lattice diffusion flux
+\cite{McNabb1963,Turnbull1997,Legrand2015,Marrani2025}.
+
+The resulting governing equation is
+
+\begin{equation}
+\frac{\partial C_L(x,t)}{\partial t}
++
+\sum_{i=1}^{n_t}
+\frac{\partial C_T^{(i)}(x,t)}{\partial t}
+=
+\frac{\partial}{\partial x}
+\left[
+D_L(T)
+\frac{\partial C_L(x,t)}{\partial x}
+\right].
+\label{eq:ch3_governing_pde}
+\end{equation}
+
+The equation contains two coupled physical processes:
+
+\begin{enumerate}
+    \item spatial diffusion of mobile lattice hydrogen, represented by
+    the right-hand side; and
+    \item local exchange between lattice and trapped populations,
+    represented by the temporal derivatives of the trapped
+    concentrations.
+\end{enumerate}
+
+Substitution of the McNabb--Foster trapping equations into the
+conservation equation gives the explicit nonlinear diffusion-reaction
+equation
+
+\begin{equation}
+\begin{aligned}
+\frac{\partial C_L}{\partial t}
+&+
+\sum_{i=1}^{n_t}
+\left[
+k_i
+\frac{N_T^{(i)}}{N_L}
+C_L
+\left(
+1-\frac{C_T^{(i)}}{N_T^{(i)}}
+\right)
+-
+p_i C_T^{(i)}
+\left(
+1-\frac{C_L}{N_L}
+\right)
+\right]
+\\
+&=
+\frac{\partial}{\partial x}
+\left[
+D_L(T)
+\frac{\partial C_L}{\partial x}
+\right].
+\end{aligned}
+\label{eq:ch3_governing_pde_expanded}
+\end{equation}
+
+This equation constitutes the primary physical governing equation
+solved by the numerical model. The nonlinearities arise from the
+finite lattice and trap occupancies and from the temperature
+dependence of the diffusion, trapping, and detrapping coefficients.
+
+%----------------------------------------------------------------------
+\subsection{Initial Conditions and Oriani Equilibrium Initialization}
+\label{subsec:initial_conditions}
+%----------------------------------------------------------------------
+
+At the beginning of the thermal desorption calculation, the mobile
+lattice hydrogen concentration is prescribed as a spatially uniform
+initial value:
+
+\begin{equation}
+C_L(x,0)=C_{L,0},
+\qquad
+0\leq x\leq \frac{L}{2}.
+\label{eq:ch3_ic_CL}
+\end{equation}
+
+The initial trapped hydrogen concentrations are then determined from
+the Oriani local-equilibrium relation at the initial temperature
+$T_0$ \cite{Oriani1970,Diaz2020,Marrani2025}.
+
+For the $i$-th trap population,
+
+\begin{equation}
+\theta_T^{(i)}(x,0)
+=
+\frac{
+K_T^{(i)}(T_0)\theta_L(x,0)
+}{
+1+
+\left[
+K_T^{(i)}(T_0)-1
+\right]
+\theta_L(x,0)
+},
+\qquad
+i=1,2,\ldots,n_t.
+\label{eq:ch3_ic_oriani_theta}
+\end{equation}
+
+The corresponding initial trapped concentration is
+
+\begin{equation}
+C_T^{(i)}(x,0)
+=
+N_T^{(i)}
+\theta_T^{(i)}(x,0).
+\label{eq:ch3_ic_oriani_CT}
+\end{equation}
+
+The equilibrium constant is defined as
+
+\begin{equation}
+K_T^{(i)}(T_0)
+=
+\exp\left(
+\frac{E_b^{(i)}}{RT_0}
+\right)
+=
+\exp\left(
+-\frac{\Delta H_i}{RT_0}
+\right).
+\label{eq:ch3_oriani_KT}
+\end{equation}
+
+The initial condition therefore establishes a thermodynamic
+partitioning of hydrogen between lattice and trap populations at
+$T_0$, while subsequent redistribution during the thermal ramp is
+controlled by the finite McNabb--Foster kinetic rates.
+
+%======================================================================
+\section{Thermal Desorption}
+\label{sec:thermal_desorption}
+%======================================================================
+
+\subsection{Programmed Heating Schedule}
+\label{subsec:heating_schedule}
+
+During Thermal Desorption Spectroscopy (TDS), the specimen is subjected
+to a prescribed temperature ramp. For a constant linear heating rate,
+the temperature is expressed as
+
+\begin{equation}
+T(t)
+=
+T_0+\beta t,
+\label{eq:ch3_heating_schedule}
+\end{equation}
+
+where $T_0$ is the initial desorption temperature and $\beta$ is the
+constant heating rate,
+
+\begin{equation}
+\beta
+=
+\frac{dT}{dt}.
+\label{eq:ch3_beta}
+\end{equation}
+
+The units of $\beta$ may be expressed as
+$\mathrm{K\,s^{-1}}$ or $\mathrm{K\,min^{-1}}$, provided that the
+corresponding time units are used consistently.
+
+For the present model,
+
+\begin{equation}
+T_0=T_{\min},
+\label{eq:ch3_Tmin}
+\end{equation}
+
+with the initial temperature corresponding to the beginning of the
+thermal desorption experiment.
+
+%----------------------------------------------------------------------
+\subsection{Thermal Redistribution and Detrapping Kinetics}
+\label{subsec:thermal_redistribution}
+%----------------------------------------------------------------------
+
+As the temperature increases, the temperature-dependent diffusion,
+trapping, and detrapping coefficients change according to their
+respective Arrhenius relations.
+
+In particular, the detrapping coefficient increases strongly with
+temperature because the detrapping activation energy contains both the
+lattice hopping contribution and the trap binding energy,
+
+\begin{equation}
+E_d^{(i)}
+=
+E_L+E_b^{(i)}.
+\end{equation}
+
+Consequently, hydrogen initially stored in traps can be released into
+the mobile lattice population as the temperature rises
+\cite{Turnbull1997,Legrand2015,Marrani2025}.
+
+The released hydrogen increases the local lattice concentration,
+producing concentration gradients that drive Fickian diffusion toward
+the external surface. Hydrogen reaching the surface is subsequently
+released from the specimen and contributes to the measured thermal
+desorption signal.
+
+The resulting sequence can therefore be represented as
+
+\begin{equation}
+\text{trapped H}
+\;\longrightarrow\;
+\text{lattice H}
+\;\longrightarrow\;
+\text{lattice diffusion}
+\;\longrightarrow\;
+\text{surface}
+\;\longrightarrow\;
+\text{desorbed H}.
+\label{eq:ch3_desorption_sequence}
+\end{equation}
+
+The measured TDS response is therefore determined by the coupled
+effects of lattice diffusivity, trap density, trap binding energy,
+finite trapping/detrapping kinetics, specimen geometry, surface
+transport, and heating rate.
+
+%======================================================================
+\section{Hydrogen Desorption Flux}
+\label{sec:desorption_flux}
+%======================================================================
+
+\subsection{Exit Surface Molar Flux}
+\label{subsec:exit_flux}
+
+At the external surface $x=L/2$, the instantaneous hydrogen desorption
+flux can be obtained from Fick's law:
+
+\begin{equation}
+J_{\mathrm{exit}}(t)
+=
+-\left.
+D_L(T(t))
+\frac{\partial C_L(x,t)}{\partial x}
+\right|_{x=L/2}.
+\label{eq:ch3_surface_flux_fick}
+\end{equation}
+
+The corresponding units are
+
+\begin{equation}
+[J_{\mathrm{exit}}]
+=
+\mathrm{mol\,m^{-2}\,s^{-1}}.
+\end{equation}
+
+When a finite surface activation or desorption resistance is included,
+the surface flux may alternatively be represented using a surface
+kinetic or penalty relation of the form
+
+\begin{equation}
+J_{\mathrm{exit}}(t)
+=
+\frac{k_{\mathrm{pen}}}{N_L}
+\exp\left(
+-\frac{E_{\mathrm{bc}}}{RT(t)}
+\right)
+C_L\left(\frac{L}{2},t\right).
+\label{eq:ch3_surface_flux_penalty}
+\end{equation}
+
+Here, $k_{\mathrm{pen}}$ and $E_{\mathrm{bc}}$ represent parameters
+associated with the adopted surface desorption formulation. The
+physical calibration of these parameters must be distinguished from
+the bulk diffusion and trapping parameters.
+
+%----------------------------------------------------------------------
+\subsection{Conversion of Desorption Flux to Experimental Units}
+\label{subsec:flux_conversion}
+
+For comparison with experimentally reported TDS signals, the computed
+molar surface flux can be converted into a normalized hydrogen mass
+release rate. For a specimen of total thickness $L$, the corresponding
+conversion can be written as
+
+\begin{equation}
+\mathrm{Flux}_{\mathrm{ppm/s}}(t)
+=
+\frac{
+2M_HJ_{\mathrm{exit}}(t)
+}{
+L\rho_{\mathrm{steel}}
+}
+\times10^6,
+\label{eq:ch3_flux_ppm_conversion}
+\end{equation}
+
+where $M_H$ is the molar mass of atomic hydrogen and
+$\rho_{\mathrm{steel}}$ is the mass density of the steel.
+
+For hydrogen,
+
+\begin{equation}
+M_H
+=
+1.008\times10^{-3}
+\ \mathrm{kg\,mol^{-1}},
+\label{eq:ch3_MH}
+\end{equation}
+
+and a representative density of ferritic steel is
+
+\begin{equation}
+\rho_{\mathrm{steel}}
+\approx
+7850\ \mathrm{kg\,m^{-3}}.
+\label{eq:ch3_rho}
+\end{equation}
+
+The factor of two accounts for desorption from both external surfaces
+of a specimen having total thickness $L$, while the numerical model
+may solve only the symmetric half-domain $0\leq x\leq L/2$.
+
+%----------------------------------------------------------------------
+\subsection{Cumulative Desorbed Hydrogen}
+\label{subsec:cumulative_desorption}
+
+The cumulative amount of hydrogen released through the desorption
+surface is obtained by integrating the instantaneous flux over time:
+
+\begin{equation}
+Q_{\mathrm{des}}
+=
+\int_0^{t_{\mathrm{final}}}
+J_{\mathrm{exit}}(t)\,dt.
+\label{eq:ch3_cumulative_desorption_time}
+\end{equation}
+
+Using the linear heating relationship
+
+\begin{equation}
+dT=\beta\,dt,
+\end{equation}
+
+the same quantity can be expressed in temperature coordinates as
+
+\begin{equation}
+Q_{\mathrm{des}}
+=
+\frac{1}{\beta}
+\int_{T_0}^{T_{\mathrm{final}}}
+J_{\mathrm{exit}}(T)\,dT.
+\label{eq:ch3_cumulative_desorption_temperature}
+\end{equation}
+
+This relation demonstrates the direct influence of the heating rate on
+the conversion between time-dependent hydrogen release and the
+temperature-dependent TDS signal.
+
+%======================================================================
+\section{Hydrogen Charging Boundary Condition}
+\label{sec:charging_boundary}
+%======================================================================
+
+\subsection{Mathematical Representations of Hydrogen Entry}
+\label{subsec:charging_BC_forms}
+
+Hydrogen charging introduces a surface-entry problem in which hydrogen
+must cross the metal--electrolyte interface before becoming part of the
+subsurface lattice population. Depending on the physical assumptions
+and available experimental information, the charging boundary can be
+represented using prescribed concentration, prescribed flux, or a
+reaction-controlled surface relation
+\cite{Turnbull2014,MartinezPaneda2020,Koren2024a}.
+
+\paragraph{Dirichlet boundary condition.}
+
+The simplest representation prescribes the lattice concentration at
+the charging surface:
+
+\begin{equation}
+C_L(x_{\mathrm{surface}},t)
+=
+C_0.
+\label{eq:ch3_dirichlet_BC}
+\end{equation}
+
+Here, $C_0$ represents the imposed subsurface lattice concentration.
+This representation implicitly assumes that the surface-entry process
+is sufficiently rapid that the prescribed concentration can be
+maintained at the boundary.
+
+\paragraph{Neumann boundary condition.}
+
+Alternatively, the hydrogen entry rate can be represented through a
+prescribed hydrogen molar flux:
+
+\begin{equation}
+-D_L
+\left.
+\frac{\partial C_L}{\partial x}
+\right|_{\mathrm{surface}}
+=
+J_H.
+\label{eq:ch3_neumann_general}
+\end{equation}
+
+When an electrochemical charging current density is related to hydrogen
+entry through an effective Faradaic efficiency,
+the flux may be written as
+
+\begin{equation}
+J_H
+=
+\frac{
+\eta_{\mathrm{Faraday}}\,i_c
+}{
+F
+},
+\label{eq:ch3_neumann_electrochemical}
+\end{equation}
+
+where $i_c$ is the applied cathodic current density,
+$\eta_{\mathrm{Faraday}}$ is the fraction of the electrochemical
+hydrogen-generation current associated with hydrogen entering the
+metal, and
+
+\begin{equation}
+F=96485\ \mathrm{C\,mol^{-1}}
+\end{equation}
+
+is Faraday's constant.
+
+Importantly, the applied current density should not automatically be
+identified with the hydrogen absorption flux. The conversion depends
+on the interfacial electrochemical reactions and therefore requires an
+appropriate efficiency or surface-kinetic description
+\cite{Turnbull2014,Koren2024a}.
+
+\paragraph{Reaction-controlled or Robin boundary condition.}
+
+A more physically detailed representation accounts for finite surface
+absorption and desorption kinetics:
+
+\begin{equation}
+-D_L
+\left.
+\frac{\partial C_L}{\partial x}
+\right|_{\mathrm{surface}}
+=
+k_{\mathrm{abs}}\theta_{\mathrm{ads}}
+\left(
+1-\frac{C_{L,\mathrm{surf}}}{N_L}
+\right)
+-
+k_{\mathrm{des}}C_{L,\mathrm{surf}}
+\left(
+1-\theta_{\mathrm{ads}}
+\right),
+\label{eq:ch3_robin_BC}
+\end{equation}
+
+where
+
+\begin{equation}
+C_{L,\mathrm{surf}}
+=
+C_L(x_{\mathrm{surface}},t)
+\end{equation}
+
+and $\theta_{\mathrm{ads}}$ represents the fractional surface
+coverage of adsorbed hydrogen.
+
+This formulation explicitly separates the surface-entry kinetics from
+the subsequent bulk diffusion and trapping processes.
+
+\paragraph{Surface activation penalty formulation.}
+
+The surface desorption or absorption process may also be represented
+using an Arrhenius-type surface activation relation:
+
+\begin{equation}
+-D_L
+\left.
+\frac{\partial C_L}{\partial x}
+\right|_{x=L/2}
+=
+\frac{k_{\mathrm{pen}}}{N_L}
+\exp\left(
+-\frac{E_{\mathrm{bc}}}{RT(t)}
+\right)
+C_L(L/2,t).
+\label{eq:ch3_penalty_BC}
+\end{equation}
+
+This formulation provides a finite surface transport resistance while
+retaining the bulk McNabb--Foster transport and trapping equations.
+
+%----------------------------------------------------------------------
+\subsection{Applied Electrochemical Current and Actual Hydrogen Entry}
+\label{subsec:electrochemical_entry}
+%----------------------------------------------------------------------
+
+During cathodic electrochemical charging, the externally applied
+current density drives electrochemical reactions at the metal--
+electrolyte interface. A simplified representation of the initial
+hydrogen-generation step is the Volmer reaction,
+
+\begin{equation}
+\mathrm{H^+ + e^- \rightarrow H_{ads}}.
+\label{eq:ch3_volmer}
+\end{equation}
+
+The adsorbed hydrogen can subsequently either enter the metal lattice
+or recombine to form molecular hydrogen. Two commonly considered
+recombination pathways are the chemical Tafel reaction,
+
+\begin{equation}
+2\mathrm{H}_{\mathrm{ads}}
+\rightarrow
+\mathrm{H}_2,
+\label{eq:ch3_tafel}
+\end{equation}
+
+and the electrochemical Heyrovsky reaction,
+
+\begin{equation}
+\mathrm{H}_{\mathrm{ads}}
++
+\mathrm{H^+}
++
+e^-
+\rightarrow
+\mathrm{H}_2.
+\label{eq:ch3_heyrovsky}
+\end{equation}
+
+Consequently, the externally applied current density $i_c$ does not,
+in general, provide a direct one-to-one measurement of the hydrogen
+flux entering the metal lattice. The actual absorption flux depends on
+the competition between hydrogen adsorption, recombination, and
+absorption into the subsurface lattice
+\cite{Turnbull2014,Koren2024a}.
+
+The corresponding effective hydrogen entry flux can therefore be
+represented as
+
+\begin{equation}
+J_H
+=
+\frac{\eta_{\mathrm{Faraday}}i_c}{F},
+\label{eq:ch3_effective_entry_flux}
+\end{equation}
+
+where $\eta_{\mathrm{Faraday}}$ should be regarded as an effective
+absorption efficiency rather than automatically assuming
+$\eta_{\mathrm{Faraday}}=1$.
+
+Hydrogen recombination poisons, such as thiourea or sulfide-containing
+species, can modify the surface reaction kinetics and thereby alter
+the fraction of generated hydrogen that enters the metal
+\cite{Turnbull2014,Ohaeri2018,Koren2024a,Zha2025}.
+
+%----------------------------------------------------------------------
+\subsection{Electrochemical Charging and Gaseous Pressure Charging}
+\label{subsec:electrochemical_vs_gas}
+%----------------------------------------------------------------------
+
+Hydrogen charging can be introduced either through gaseous hydrogen
+exposure or through electrochemical cathodic charging. The two
+methods produce hydrogen entry through different interfacial
+mechanisms and therefore should not be treated as intrinsically
+identical boundary conditions.
+
+For gaseous hydrogen exposure, the equilibrium lattice concentration
+can be related to hydrogen fugacity through Sieverts-type behaviour:
+
+\begin{equation}
+C_0
+=
+S
+\sqrt{f_{\mathrm{H_2}}},
+\label{eq:ch3_sieverts}
+\end{equation}
+
+where $S$ is the appropriate solubility coefficient and
+$f_{\mathrm{H_2}}$ is the hydrogen fugacity.
+
+For electrochemical charging, the subsurface hydrogen concentration
+depends on the electrochemical and interfacial conditions, including
+the cathodic potential, electrolyte composition, pH, surface
+coverage, and the presence of recombination poisons
+\cite{Turnbull2014,Koren2024a}.
+
+Therefore, an applied electrochemical potential or current density
+cannot be directly converted into an equivalent gas pressure without
+an experimentally supported calibration.
+
+One possible bridge between the two charging methods is the
+equivalent hydrogen fugacity concept. If the subsurface lattice
+concentration generated by electrochemical charging can be measured,
+an equivalent gas fugacity may be defined through the same
+Sieverts-type relationship:
+
+\begin{equation}
+C_{0,\mathrm{EC}}
+=
+S
+\sqrt{
+f_{\mathrm{H_2}}^{\mathrm{eq}}
+},
+\label{eq:ch3_equivalent_fugacity}
+\end{equation}
+
+which gives
+
+\begin{equation}
+f_{\mathrm{H_2}}^{\mathrm{eq}}
+=
+\left(
+\frac{C_{0,\mathrm{EC}}}{S}
+\right)^2.
+\label{eq:ch3_equivalent_fugacity_expanded}
+\end{equation}
+
+This approach establishes the equivalence through the resulting
+subsurface hydrogen concentration rather than by assuming that
+electrochemical current, potential, or charge can be directly
+identified with gas pressure.
+
+For X65 pipeline steel, experimentally calibrated relationships
+between electrochemical charging conditions and equivalent hydrogen
+fugacity have been reported in the literature
+\cite{Koren2023a,Koren2024a}. Such relationships are material-,
+electrolyte-, surface-, and charging-condition-specific and should
+therefore be treated as experimental calibration data rather than as a
+universal conversion.
+
+%======================================================================
+\section{Summary of the Physical Model}
+\label{sec:physical_model_summary}
+%======================================================================
+
+The physical and mathematical formulation developed in this chapter
+can be summarized as a coupled diffusion--reaction system. Mobile
+lattice hydrogen undergoes Fickian diffusion,
+
+\begin{equation}
+J_L=-D_L(T)\frac{\partial C_L}{\partial x},
+\end{equation}
+
+while each trap population exchanges hydrogen with the lattice through
+the McNabb--Foster kinetic relation,
+
+\begin{equation}
+\frac{\partial C_T^{(i)}}{\partial t}
+=
+k_i(T)
+\frac{N_T^{(i)}}{N_L}
+C_L
+\left(
+1-\frac{C_T^{(i)}}{N_T^{(i)}}
+\right)
+-
+p_i(T)C_T^{(i)}
+\left(
+1-\frac{C_L}{N_L}
+\right).
+\end{equation}
+
+The lattice and trapped populations are coupled through the total
+hydrogen conservation equation,
+
+\begin{equation}
+\frac{\partial C_L}{\partial t}
++
+\sum_{i=1}^{n_t}
+\frac{\partial C_T^{(i)}}{\partial t}
+=
+\frac{\partial}{\partial x}
+\left(
+D_L(T)
+\frac{\partial C_L}{\partial x}
+\right).
+\end{equation}
+
+The initial hydrogen partition is established using the Oriani
+equilibrium relation at $T_0$, after which the McNabb--Foster kinetic
+equations govern the transient evolution during the programmed
+temperature ramp. The thermal history,
+
+\begin{equation}
+T(t)=T_0+\beta t,
+\end{equation}
+
+couples temperature to lattice diffusion and trapping/detrapping
+kinetics. Hydrogen released from traps enters the mobile lattice,
+diffuses toward the external surface, and produces the measurable
+desorption flux.
+
+The resulting framework provides the physical basis for the numerical
+finite-element formulation developed in the subsequent chapter. The
+spatial discretization, weak-form derivation, temporal discretization,
+nonlinear residual and Jacobian construction, numerical integration,
+and computational implementation are therefore treated separately in
