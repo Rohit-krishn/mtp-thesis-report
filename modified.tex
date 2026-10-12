@@ -29,7 +29,6 @@
 % Mathematics, graphics, tables, lists
 %================================================
 \usepackage{graphicx}
-\usepackage{subcaption}
 \graphicspath{{./}{figures/}}
 \usepackage{booktabs}
 \usepackage{array}
@@ -138,7 +137,7 @@
 
 {\Large\bfseries
 FINITE ELEMENT TRAINED MACHINE-LEARNED MODEL FOR
-INVERSE IDENTIFICATION OF HYDROGEN TRAP PARAMETERS
+IDENTIFICATION OF HYDROGEN TRAP PARAMETERS
 FROM TDS DATA IN PIPELINE STEEL\par}
 
 \vspace*{1cm}
@@ -237,7 +236,7 @@ The work presented in this report has been carried out as part of the requiremen
 \frontheadingtext{Certificate}
 
 This is to certify that the Phase I thesis work entitled
-\textbf{``Finite Element Trained Machine-Learned Model for Inverse Identification of Hydrogen Trap Parameters from TDS Data in Pipeline Steel''}
+\textbf{``Finite Element Trained Machine-Learned Model for Identification of Hydrogen Trap Parameters from TDS Data in Pipeline Steel''}
 submitted by
 \textbf{U Rohit Krishnan}
 to the Indian Institute of Technology Bombay, in partial fulfillment of the requirements for the degree of Master of Technology in Computational Materials Engineering, is a record of the work carried out by him under my supervision.
@@ -349,11 +348,11 @@ Thermal desorption spectroscopy (TDS) provides an experimental means of quantify
 
 The resulting response can be analyzed and studied to quantify and characterize the information about hydrogen in various microstructural features, like the binding energy and trap density of traps. The binding energy refers to the amount of energy required to release hydrogen from a particular trap, and density refers to the density of that particular trap in the material in $\text{mol/m}^3$.
 
-However, quantitative extraction of this information is not straightforward, as the response can depend simultaneously on hydrogen diffusivity, trapping kinetics, trap density, specimen geometry, initial hydrogen distribution, and heating rate~\cite{Legrand2015,Turnbull1997,Diaz2020}.
+However quantitative extraction of these parameters from the TDS response is not straightforward, as the TDS response can depend simultaneously on hydrogen diffusivity, trapping kinetics, trap density, specimen geometry, initial hydrogen distribution, and heating rate    ~\cite{Legrand2015,Turnbull1997,Diaz2020}.
 
-There are various methods being employed to analyze this TDS information, for example, the peak shift methods, but their applicability may be restricted due to various factors like diffusion-dominated regimes and ignoring the trapping kinetics entirely~\cite{Lee1986,Wei2012}.
+There are various experimental methods being employed to analyze this TDS information, for example, the peak shift methods which will be discussed in next chapter but these methodes are valid under certain regimes and assumptions, for example, neglecting the effect of diffuison,retrapping which may not be valid in all conditions.~\cite{Lee1986,Wei2012}.
 
-Whereas numerical models based on transient diffusion and trapping kinetics can account for additional effects including spatial diffusion, retrapping, specimen dimensions, and thermal histories~\cite{Legrand2015,Turnbull1997,Drexler2019}.
+Whereas numerical models based on transient diffusion and trapping kinetics can account for these effects~\cite{Legrand2015,Turnbull1997,Drexler2019}.
 
 At the same time, the problem associated with extracting the characteristics of traps---that is, binding energy and trap density---from this method is that the inverse problem is ``ill-posed''. The inverse identification of trap parameters from a TDS response that involves a high-dimensional parameter space can lead to obtaining non-unique solutions for the same TDS curve.
 
@@ -376,7 +375,8 @@ The specific objectives of the present research are:
     \item Develop a machine-learning-based inverse model for the identification of hydrogen trap parameters in the subsequent phase of the project.
 \end{enumerate}
 
-Accordingly, the Phase I report does not claim completion of the final machine learning inverse model.
+In the phase I report i have only covered the first 6 objectives. The remaining 2 objectives will be covered in the phase II.
+
 
 \section{Thesis Organization}
 
@@ -392,7 +392,6 @@ The remainder of the thesis is organized as follows:
 
 \textbf{Chapter~\ref{ch:status} -- Current Status and Future Work} summarizes the work completed during Phase~I and discusses the limitations of the current phase.
 
-\textbf{Chapter~\ref{ch:conclusion} -- Conclusion} summarizes the principal findings and contributions established during the present phase of the research and the focus of the subsequent phase.
 
 %================================================
 % CHAPTER 2
@@ -473,7 +472,7 @@ The detailed formulations of both McNabb and Foster and Oriani's models are expl
 \section{Analysis of TDS Spectra}
 \label{sec:analysis_of_tds}
 
-Kissinger (1957) originally derived a first-order rate equation for differential thermal analysis of chemical reactions. Choo and Lee (1982) transferred this concept to hydrogen TDS by treating hydrogen escape from microstructural traps as a first-order chemical detrapping reaction. In TDS, a hydrogen-charged sample is heated at a constant linear heating rate ($\phi = dT/dt$), and the resulting surface desorption flux ($J$) is recorded as a function of temperature ($T$). The fundamental governing equation is expressed as:
+Kissinger (1957)\cite{Lee1986} originally derived a first-order rate equation for differential thermal analysis of chemical reactions. Choo and Lee (1982)\cite{Lee1986} transferred this concept to hydrogen TDS by treating hydrogen escape from microstructural traps as a first-order chemical detrapping reaction. In TDS, a hydrogen-charged sample is heated at a constant linear heating rate ($\phi = dT/dt$), and the resulting surface desorption flux ($J$) is recorded as a function of temperature ($T$). The fundamental governing equation is expressed as:
 \begin{equation}
     \ln\left(\frac{\phi}{T_{\text{peak}}^2}\right) = -\frac{E_d}{R T_{\text{peak}}} + \text{constant}
 \end{equation}
@@ -514,7 +513,9 @@ Turnbull (1997)~\cite{Turnbull1997} addressed these problems by using a continuu
 
 In thicker specimens, detrapped hydrogen takes longer to diffuse to the surface, thus delaying hydrogen release and shifting the peak temperature independent of the trap strength. He also found out that the height of the activation energy needed to enter a trap was shown to have only a slight effect on the TDS spectrum compared to binding energy and trap site density.
 
-There was a dimensional inconsistency in McNabb and Foster's original formulation; the solvent interstitial lattice site density ($N_L$) was implicitly merged into the capture rate parameter $k$. This created a dimensional discrepancy where capture rate $k$ carried units of $\text{m}^3 \cdot \text{mol}^{-1} \cdot \text{s}^{-1}$, whereas release rate $p$ had units of $\text{s}^{-1}$. Krom and Bakker~\cite{Krom2000} pointed out that from a dimensional viewpoint, having different units for trapping and detrapping was mathematically inconsistent. His work also explained about the uncertainty of Oriani's local thermodynamic equilibrium hypotheses during mechanical deformation---whether we could assume if local equilibrium was maintained or whether full kinetic rate equations were required. His work showed that indeed for standard tensile testing with strain rates ($\dot{\epsilon}_p \approx 10^{-4}\text{ to } 1\text{ s}^{-1}$), the rate of hydrogen transfer into newly generated dislocation traps easily keeps pace with plastic strain rate, thus the local equilibrium assumption can be held valid. The work also showed how we could couple plastic strain-dependent dislocation trap density with continuum mass transport models. The governing equations for this are also given in the next section.
+There was a dimensional inconsistency in McNabb and Foster's original formulation; the solvent interstitial lattice site density ($N_L$) was implicitly merged into the capture rate parameter $k$. This created a dimensional discrepancy where capture rate $k$ carried units of $\text{m}^3 \cdot \text{mol}^{-1} \cdot \text{s}^{-1}$, whereas release rate $p$ had units of $\text{s}^{-1}$. 
+
+Krom and Bakker~\cite{Krom2000} pointed out that from a dimensional viewpoint, having different units for trapping and detrapping was mathematically inconsistent. His work also explained about the uncertainty of Oriani's local thermodynamic equilibrium hypotheses during mechanical deformation---whether we could assume if local equilibrium was maintained or whether full kinetic rate equations were required. His work showed that indeed for standard tensile testing with strain rates ($\dot{\epsilon}_p \approx 10^{-4}\text{ to } 1\text{ s}^{-1}$), the rate of hydrogen transfer into newly generated dislocation traps easily keeps pace with plastic strain rate, thus the local equilibrium assumption can be held valid. The work also showed how we could couple plastic strain-dependent dislocation trap density with continuum mass transport models. The governing equations for this are also given in the next section.
 
 \begin{figure}[htbp]
     \centering
@@ -538,18 +539,11 @@ The effect of this trapping and detrapping jump frequency was further studied by
 
 Drexler~\cite{Drexler2019} modeled hydrogen transport across a 1 mm thick disc specimen using a multi-trap continuum framework; he assessed local thermodynamic equilibrium between lattice sites and $n_t$ independent trap populations. He implemented it in the commercial finite element code 3DS ABAQUS using custom user element subroutines (UEL) and standard 1D heat/mass transfer elements (DC1D2). He then coupled ABAQUS with a Python optimization pipeline using scipy.optimize (Scipy.Optimize.Leastsq / Nelder--Mead algorithm). Drexler et al.~\cite{Drexler2019} calibrated and validated their framework on three Fe-C-Ti model alloys containing 0.1, 0.2, and 0.3 wt\% C with stoichiometric Ti additions. His study was on how heat treatment changes the microstructure of an Fe-C-Ti alloy and how it changes the trap environment. His first quenched alloy produced a martensitic structure with lath boundaries that acted as weak traps; then he tempered the material at $600^\circ\text{C}$ for 1 hour, which causes fine TiC precipitates to form. This introduces new interfaces and carbon vacancies. He was able to observe 5 different types of traps ranging from 15 kJ/mol to 110 kJ/mol, which he then compared with literature first-principle calculations and characterized. He also was able to see the 5th trap disappearing at prolonged 2 hours of tempering, which he attributed to carbon vacancies disappearing due to diffusion of carbon atoms. Thus, he was able to effectively quantify several trap features by numerically modeling the TDS spectrum.
 
-One of the important factors that comes into the picture while numerical modeling is boundary conditions. The widely employed boundary condition was the Dirichlet boundary condition. Traditional crack tip hydrogen models such as Sofronis and McMeeking (1989) rely on prescribing a fixed, constant lattice hydrogen concentration ($C_L = C_0$) at the crack faces. This assumes instantaneous infinite-rate electrochemical surface reactions and ignores the real adsorption-absorption kinetics operating at the metal-electrolyte interface. Also, the fixed boundary conditions are independent of stress, failing to capture how elevated crack tip hydrostatic stress enhances chemical potential and draws higher surface fluxes into the fracture zone. They also said that if we assume Conventional Plasticity ($J_2$ Flow Theory) near the crack tip, it cannot account for the huge strain gradients, and since geometrically necessary dislocations (GNDs) are directly proportional to these large strain gradients, this means more traps for hydrogen. These GNDs also elevate hydrostatic stress beyond classical limits, which strongly affects the hydrogen accumulation. Mart\'{\i}nez-Pa\~{n}eda et al.~\cite{MartinezPaneda2020} implemented a fully coupled, multi-physics finite element framework in 2D plane strain (built in ABAQUS via custom subroutines). The model solved the mechanical equilibrium equation, transient McNabb--Foster mass transport, and trapping kinetic PDEs concurrently, taking displacements ($u, v$), lattice hydrogen concentration ($C_L$), and trap occupancy ($\theta_r$) as nodal degrees of freedom. They replaced Dirichlet constant concentration schemes with Neumann generalized absorption flux boundary conditions:
-\begin{equation}
-    J_{\text{in}} = k_{\text{abs}} N_s \theta_{\text{ad}} - k_{\text{des}} C_s (1 - \theta_{\text{ad}})
-\end{equation}
-where $N_s$ is absorption site density, $C_s$ is subsurface concentration, and surface coverage $\theta_{\text{ad}}$ is calculated dynamically by balancing the Hydrogen Evolution Reaction (HER) kinetics (Volmer--Heyrovsky--Tafel steps):
-\begin{multline}
-    k_{r,\text{chem}} \theta_{\text{ad}}^2 + \left( k_{\text{abs}} \exp\left[ \frac{V_H \sigma_h}{RT} \right] + k_{\text{des}} C + k_c + k_{r,\text{elec}} \right) \theta_{\text{ad}} \\
-    - k_{\text{des}} C - k_c = 0
-\end{multline}
-This formulation explicitly couples subsurface hydrogen entry flux ($J_{\text{in}}$) with applied overpotential ($\eta$), charging current ($k_c$), recombination rates ($k_{r,\text{chem}}, k_{r,\text{elec}}$), and local hydrostatic stress ($\sigma_h$).
+One of the important factors that comes into the picture while numerical modeling is boundary conditions. The widely employed boundary condition was the Dirichlet boundary condition. Traditional crack tip hydrogen models such as Sofronis and McMeeking (1989)\cite{SOFRONIS1989317} rely on prescribing a fixed, constant lattice hydrogen concentration ($C_L = C_0$) at the crack faces. This assumes instantaneous infinite-rate electrochemical surface reactions and ignores the real adsorption-absorption kinetics operating at the metal-electrolyte interface. Also, the fixed boundary conditions are independent of stress, failing to capture how elevated crack tip hydrostatic stress enhances chemical potential and draws higher surface fluxes into the fracture zone. They also said that if we assume Conventional Plasticity ($J_2$ Flow Theory) near the crack tip, it cannot account for the huge strain gradients, and since geometrically necessary dislocations (GNDs) are directly proportional to these large strain gradients, this means more traps for hydrogen. These GNDs also elevate hydrostatic stress beyond classical limits, which strongly affects the hydrogen accumulation. 
 
-E. Garc\'{\i}a-Mac\'{\i}as, Z. D. Harris, and E. Mart\'{\i}nez-Pa\~{n}eda (2024) came up with an open-sourced GUI-based platform in MATLAB designed for simulating virtual TDS tests and analyzing experimental spectra. The model gave the option to choose both Oriani's model and the McNabb--Foster model. The McNabb--Foster model is capable of solving lattice concentration and 6 independent trap concentrations using a 1D finite difference method coupled with MATLAB's ode15s solver: a variable-order solver based on numerical differentiation formulas optimized for stiff problems. Oriani's local equilibrium was solved using MATLAB's pdepe solver (based on the method of lines). To extract trapping parameters from experimental curves, they embedded an inverse fitting tool based on Particle Swarm Optimization (PSO). The objective function minimizes the Root Mean Squared Error (RMSE) between experimental flux/desorption rates and numerical predictions:
+Mart\'{\i}nez-Pa\~{n}eda et al.~\cite{MartinezPaneda2020} implemented a fully coupled, multi-physics finite element framework in 2D plane strain (built in ABAQUS via custom subroutines). The model solved the mechanical equilibrium equation, transient McNabb--Foster mass transport, and trapping kinetic PDEs concurrently, taking displacements ($u, v$), lattice hydrogen concentration ($C_L$), and trap occupancy ($\theta_r$) as nodal degrees of freedom. They replaced Dirichlet constant concentration schemes with Neumann generalized absorption flux boundary conditions.
+
+E. Garc\'{\i}a-Mac\'{\i}as et al. (2024)\cite{garcia2024tds} came up with an open-sourced GUI-based platform in MATLAB designed for simulating virtual TDS tests and analyzing experimental spectra. The model gave the option to choose both Oriani's model and the McNabb--Foster model. The McNabb--Foster model is capable of solving lattice concentration and 6 independent trap concentrations using a 1D finite difference method coupled with MATLAB's ode15s solver: a variable-order solver based on numerical differentiation formulas optimized for stiff problems. Oriani's local equilibrium was solved using MATLAB's pdepe solver (based on the method of lines). To extract trapping parameters from experimental curves, they embedded an inverse fitting tool based on Particle Swarm Optimization (PSO). The objective function minimizes the Root Mean Squared Error (RMSE) between experimental flux/desorption rates and numerical predictions:
 \begin{equation}
     \text{RMSE} = \sqrt{\frac{1}{N} \sum_{i=1}^{N} \left( \Delta C_{\text{exp}}(T_i) - \Delta C_{\text{sim}}(T_i, \boldsymbol{\theta}) \right)^2}
 \end{equation}
@@ -1815,7 +1809,7 @@ $n_{\mathrm{el}}$ & \textbf{Peak Flux} & \textbf{Peak Temp} & \textbf{Total Rele
 }
 \end{table}
 
-Doubling the mesh density reduced the peak flux relative error by factors of 4.2, 3.8, 4.7, and 6.6 when we double or nearly double the mesh ($10 \rightarrow 25$, $25 \rightarrow 50$, $50 \rightarrow 100$, $100 \rightarrow 200$). The log--log error plot shows the asymptotic spatial convergence rate of $1.9\text{ to } 2.2$ on coarse-to-medium meshes, confirming the theoretical $\mathcal{O}(h^2)$ second-order accuracy of linear finite elements.
+Doubling the mesh density reduced the peak flux relative error by factors of 4.2, 3.8, 4.7, and 6.6 when we double or nearly double the mesh these values being close to 4 is characteristic of second order accuracy of linear elements,thus confirming it to achieve theoretical $\mathcal{O}(h^2)$ second-order accuracy of linear finite elements.
 
 \begin{figure}[htbp]
     \centering
@@ -1828,7 +1822,7 @@ Applying second-order Richardson extrapolation ($p=2$) to the $n_{\mathrm{el}} =
 
 The computational run time varies linearly with the element count ($\mathcal{O}(n_{\mathrm{el}})$), increasing from $215.7\text{ s}$ ($n_{\mathrm{el}}=10$) to $8705.4\text{ s}$ ($n_{\mathrm{el}}=400$). Refinement beyond $n_{\mathrm{el}} = 50$ increases CPU time by $800\%$ while giving only a $< 0.11\%$ gain in accuracy.
 
-These results provide evidence that the spatial discretization error is small. Also, since we are required to generate a large number of datasets for training, choosing $n_{\mathrm{el}} = 25$ seems to be the better option when considering the computational cost; however, the initial parameter study is done by taking $n_{\mathrm{el}} = 50$.
+These results of relative errors being less than $0.5\%$ provide evidence that the spatial discretization error is small. Also, since we are required to generate a large number of datasets for training, choosing $n_{\mathrm{el}} = 25$ seems to be the better option when considering the computational cost; however, the initial parameter study is done by taking $n_{\mathrm{el}} = 50$.
 
 \subsection{Time-Step Convergence Study}
 
@@ -1886,7 +1880,7 @@ H_{\mathrm{des}} &= \int J(t)\,dt
 
 \subsection{Effect of Binding Energy}
 
-Increasing the binding energy caused the peak temperature to increase strictly linearly across the interior range ($50\text{--}130\text{ kJ/mol}$) with a slope of $+5.96\text{ K per kJ/mol}$ ($T_{\mathrm{p}} \approx 92.8 + 5.96(|\Delta H|-50)^\circ\text{C}$). This linear relationship arises because detrapping is an Arrhenius-activated process with barrier $E_{\mathrm{d}} = E_{\mathrm{L}} + |\Delta H|$. At a constant heating rate, peak release occurs where $E_{\mathrm{d}} / (R T_{\mathrm{p}}) \approx 18\text{--}19$, making $T_{\mathrm{p}}$ directly proportional to $E_{\mathrm{d}}$.
+Increasing the binding energy caused the peak temperature to increase strictly linearly across the interior range ($50\text{--}130\text{ kJ/mol}$) with a slope of $+5.96\text{ K per kJ/mol}$.
 
 \begin{figure}[htbp]
     \centering
@@ -1930,7 +1924,7 @@ $10^{24}$ & $1.661 \times 10^{0}$ & $3.5119 \times 10^{-5}$ & $316.06$ & $2.1336
 }
 \end{table}
 
-The maximum desorption rate remains constant at $J \approx 1.008 \times 10^{-7}\text{ ppm/s}$ at $20.06^\circ\text{C}$ for $N_{\mathrm{T}} \le 10^{21}\text{ sites/m}^3$. The flat curve represents the mobile lattice hydrogen that is in the material, not from a trap release peak. For $N_{\mathrm{T}} \ge 10^{22}\text{ sites/m}^3$, the peak flux increases almost linearly with trap density following $J_{\max} \propto N_{\mathrm{T}}^{0.91\text{--}0.92}$ ($8.34\times$ and $8.15\times$ increase per decade). Whereas the total released hydrogen follows an exact stoichiometry: $H_{\mathrm{des}} \approx 0.1284 N_{\mathrm{T}}\text{ [mol/m}^3\text{] ppm}$.
+The maximum desorption rate remains constant at $J \approx 1.008 \times 10^{-7}\text{ ppm/s}$ at $20.06^\circ\text{C}$ for $N_{\mathrm{T}} \le 10^{21}\text{ sites/m}^3$. The flat curve represents the mobile lattice hydrogen that is in the material, not from a trap release peak. For $N_{\mathrm{T}} \ge 10^{22}\text{ sites/m}^3$, the peak flux increases almost linearly with trap density following $J_{\max} \propto N_{\mathrm{T}}^{0.91\text{--}0.92}$ ($8.34\times$ and $8.15\times$ increase per decade).
 
 The peak temperature shifts upwards by $+50\text{ K}$ and $+61\text{ K}$ per decade (total shift of $+111\text{ K}$ from $10^{22}$ to $10^{24}\text{ sites/m}^3$). If the process was purely a detrapping-limited process, $T_{\mathrm{p}}$ would have been independent of trap density; however, this large positive shift confirms that desorption in thick specimens is diffusion-limited with retrapping reaching the surface. This confirms that the classic Kissinger kinetic analysis fails for non-thin TDS specimens.
 
@@ -1951,6 +1945,13 @@ The peak temperature shifts upwards by $+50\text{ K}$ and $+61\text{ K}$ per dec
 \subsection{Effect of Initial Lattice Concentration (\texorpdfstring{$C_{L,0}$}{C\_L0})}
 
 Initial lattice concentration was varied over a 100-fold range ($0.006$ to $0.600\text{ mol/m}^3$) around the baseline value ($0.06\text{ mol/m}^3$).
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\figwidth]{initialconctds.jpg}
+    \caption{Effect of the initial lattice concentration on the simulated TDS spectrum.}
+    \label{fig:sensitivity_initial_conc_spectrum}
+\end{figure}
 
 \begin{table}[htbp]
 \centering
@@ -1982,14 +1983,28 @@ $C_{L,0}$ & \textbf{Scaling} & $J_{\max}$ & $\Delta J_{\max}$ & $T_{\mathrm{p}}$
 
 It is seen that even varying $C_{L,0}$ by $10000\%$ (a factor of 100) produces negligible change in peak flux ($-2.9\%$ to $+0.2\%$) and peak temperature ($+2.72\text{ K}$ to $-0.17\text{ K}$). Because initial trap occupancies are set by thermodynamic equilibrium ($\theta_{\mathrm{T,1}} \approx 0.987$ at $C_{L,0} = 0.06\text{ mol/m}^3$), deep traps are virtually saturated. Higher $C_{L,0}$ cannot increase trap occupancy above $100\%$. Mobile lattice hydrogen represents only $0.4\%$ of the total inventory and desorbs immediately during rest. Thus, we can say that the initial lattice concentration doesn't affect the TDS spectra that largely. If we know the charging pressure, even as an approximation, as long as it is in the same order of magnitude, it will not affect the simulations significantly. However, it is to be noted that the total hydrogen content does depend on the initial concentration and that conservation laws must be satisfied. We can see the discrepancy there in the baseline model, where the experimental data shows approximately $1.62\text{ ppm}$, whereas our initial equilibrium condition caused it to be around $1.95\text{ ppm}$.
 
+
+
+\FloatBarrier
+\subsection{Effect of Lattice Diffusivity (\texorpdfstring{$D_0$ and $E_{\mathrm{L}}$}{D0 and E\_L})}
+
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=\figwidth]{initialconctds.jpg}
-    \caption{Effect of the initial lattice concentration on the simulated TDS spectrum.}
-    \label{fig:sensitivity_initial_conc_spectrum}
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{effectofd0.png}
+        \caption{Effect of $D_0$}
+        \label{fig:sensitivity_d0_spectrum}
+    \end{subfigure}\hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{EL_sens_1_TDS_spectra.jpg}
+        \caption{Effect of $E_{\mathrm{L}}$}
+        \label{fig:sensitivity_EL_spectrum}
+    \end{subfigure}
+    \caption{Effect of $D_0$ and $E_{\mathrm{L}}$ on the simulated TDS spectrum.}
+    \label{fig:sensitivity_d0el_spectrum}
 \end{figure}
-
-\subsection{Effect of Lattice Diffusivity (\texorpdfstring{$D_0$ and $E_{\mathrm{L}}$}{D0 and E\_L})}
 
 Both parameters act only through $D_{\mathrm{L}} = D_0 \exp(-E_{\mathrm{L}}/RT)$, but they do so differently and are analyzed separately.
 
@@ -2019,8 +2034,8 @@ $E_{\mathrm{L}} \times 1.5$ & $8.535\text{ kJ/mol}$ & $2.5797$ & $-5.50\%$ & $19
 }
 \end{table}
 
-The peak temperature is found to shift by $\approx 30\text{ K}$ per ln-unit change in $D_0$ ($28.9$ and $30.7\text{ K/ln-unit}$ for $\pm 25\%$), whereas the peak temperature is found to shift linearly by $+8.5\text{ to } +9.3\text{ K per kJ/mol}$ of migration energy. If we fix $T_{\mathrm{p}} \approx 446\text{ K}$, a $1\text{ kJ/mol}$ shift in $E_{\mathrm{L}}$ alters $\ln D_{\mathrm{L}}$ by $\frac{1000}{R T_{\mathrm{p}}} = 0.27\text{ ln-units}$. If we multiply this $0.27$ by the $D_0$ sensitivity ($30\text{ K/ln-unit}$), it predicts a shift of $8.1\text{ K/ (kJ/mol)}$, which agrees closely with the observed $8.5\text{--}9.3\text{ K/ (kJ/mol)}$. This shows that $D_0$ and $E_{\mathrm{L}}$ act strictly through the single coupled property $D_{\mathrm{L}}(T_{\mathrm{p}})$ effective diffusivity, making them difficult to resolve as separate parameters.
-
+The peak temperature is found to shift by $\approx 30\text{ K}$ per ln-unit change in $D_0$ ($28.9$ and $30.7\text{ K/ln-unit}$ for $\pm 25\%$), whereas the peak temperature is found to shift linearly by $+8.5\text{ to } +9.3\text{ K per kJ/mol}$ of migration energy. Higher diffusivity and lower migration energy lead to a lower peak temperature and a sharper, more intense peak.
+\FloatBarrier
 \subsection{Effect of Penalty Boundary Condition Parameters (\texorpdfstring{$k_{\mathrm{pen}}$ and $E_{\mathrm{bc}}$}{k\_pen and E\_bc})}
 
 Hydrogen leaving the specimen is modeled using a Robin boundary condition where the surface flux is proportional to lattice hydrogen concentration. To keep the mesh coarse for faster computation, this is adopted also to replicate the near-sink condition at a surface interacting with a vacuum. The penalty boundary conditions are chosen in this way in order to scale with temperature. Thus, the hydrogen flux leaving the surface is:
@@ -2076,7 +2091,7 @@ $E_{\mathrm{bc}} = 28.0\text{ kJ/mol}$ & $1.64\times\text{Base}$ & $2.8225$ & $+
 }
 \end{table}
 
-Changing $k_{\mathrm{pen}}$ over a 10,000-fold range changes the peak flux by approximately $6.1\%$ and the peak temperature by $2.72\,\mathrm{K}$, while varying $E_{\mathrm{bc}}$ from $5$ to $28\,\mathrm{kJ/mol}$ changes the peak flux by at most $3.4\%$ and the peak temperature by at most $1.61\,\mathrm{K}$. Thus, the TDS curve doesnt depend on $k_{\mathrm{pen}}$ and $E_{\mathrm{bc}}$ values.
+Changing $k_{\mathrm{pen}}$ over a 10,000-fold range changes the peak flux by approximately $6.1\%$ and the peak temperature by $2.72\,\mathrm{K}$, while varying $E_{\mathrm{bc}}$ from $5$ to $28\,\mathrm{kJ/mol}$ changes the peak flux by at most $3.4\%$ and the peak temperature by at most $1.61\,\mathrm{K}$. Thus, the TDS curve doesnt depend on these ranges of $k_{\mathrm{pen}}$ and $E_{\mathrm{bc}}$ values.
 \subsection{Effect of Specimen Thickness (\texorpdfstring{$L$}{L})}
 
 Thickness was varied across four orders of magnitude ($0.063$ to $630\text{ mm}$) around the baseline ($6.3\text{ mm}$).
@@ -2275,7 +2290,7 @@ Upon integrating the area of the curve under the experimental curve we get the t
 
 \subsection{Thin Specimen Rest Loss}
 
-Because our specimen is very thin ($L = 0.5\text{ mm}$), its pre-heating rest loss behavior differs radically from the $6.3\text{ mm}$ baseline. Pre-heating rest hold hydrogen loss kinetics for X65 steel ($0.5\text{ mm}$) are summarized below. (All values are exact computed solver outputs).
+Because our specimen is very thin ($L = 0.5\text{ mm}$), its pre-heating rest loss behavior differs radically from the $6.3\text{ mm}$ baseline. Pre-heating rest hold hydrogen loss kinetics for X65 steel ($0.5\text{ mm}$) are summarized below.
 
 \begin{figure}[htbp]
     \centering
@@ -2340,6 +2355,7 @@ The table shows the effect of rest time for $0.5\text{ mm}$ thickness. Also, fro
 
 If we keep the rest time constant and vary the thickness, we see that for thick specimens ($50\text{--}500\text{ mm}$), the interior hydrogen remains completely shielded (loss $< 5\%$). So for a thin specimen, particularly in this case, the lower temperature peak can be significantly affected by uncertainties in exact rest time measurement.
 
+Here we have taken $t_{\mathrm{rest}} = 1800 \text{ s}$ as standard rest time for our experimental analysis. The main reason for selecting 1800 s as the standard rest time is that it puts a maximum limit on rest time. Ideally it takes around 10 to 15 min to remove the specimen from diffusion chamber and load it in TDS chamber. 
 \subsection{Summary of Key Findings}
 
 Trial and error trap parameters gave reasonable agreement with the experimental curve. However, it should be noted that the system is highly ill-posed; that is, multiple combinations of binding energy and trap density can give the same TDS spectra, thus further pushing the need for a machine learning (ML) model to address this issue. The thickness of the sample is also a crucial factor for our study as it can effectively reduce the amount of hydrogen that is desorbed, thus changing the TDS spectra. The aim of this study was to establish that, given a sensible range for binding energy and trap density, we can approximately reproduce the TDS curve for one particular combination. The values of parameters might represent one particular set of solutions, but detailed analysis is further required.
@@ -2454,29 +2470,13 @@ The principal work completed during Phase I can be summarised as follows:
 
 However, there are several limitations of the current phase, such as uncertainty regarding several parameters, like the initial concentration and the varying diffusion coefficient, and not knowing the proper number of traps. These uncertainties need to be studied and properly quantified in the next phase.
 
-%================================================
-% CHAPTER 7
-%================================================
-\chapter{Conclusion}
-\label{ch:conclusion}
+\section{Proposed plan for Phase II}
+\label{sec:futurework}
+Phase~I results have established the forward FEM framework required for generation of a physics-based synthetic TDS database, and development of a machine-learning framework for inverse identification of hydrogen trap parameters. 
+In the next phase it is proposed to use this synthetically generated data and train an ml model that is capable of predicting physically correct values of binding energy and trap densities for a given TDS curve.
 
-The present Phase~I work established a physics-based finite-element framework for transient hydrogen diffusion, trapping, detrapping, and thermal desorption in a one-dimensional ferritic pipeline-steel specimen.
 
-The model uses a McNabb--Foster transient kinetic formulation in which lattice hydrogen diffuses through the material while multiple trap populations exchange hydrogen with the mobile lattice. The initial hydrogen partition is set up using an Oriani equilibrium relation, after which the transient heating simulation is governed by finite trapping and detrapping kinetics.
-
-A numerical mesh and time-step study was carried out, and an appropriate mesh and time step were found that do not cause changes in the numerical simulations. A baseline simulation was performed to check that our numerical model is capable of reproducing literature-verified TDS curves. Sensitivity studies were carried out, and then preliminary four-trap simulations of X65 pipeline steel were performed using approximately calibrated values of binding energy and trap density,
-\begin{multline}
-  \left(E_b^{(i)},\, N_T^{(i)}\right) = \\
-  \left[ (62,\, 1.5\times10^{23}),\; (80,\, 3.8\times10^{23}),\;
-         (120,\, 0.5\times10^{23}),\; (150,\, 2.0\times10^{23}) \right],
-  \label{eq:fourtrap}
-\end{multline}
-with energies in $\mathrm{kJ\,mol^{-1}}$ and densities in $\mathrm{sites\,m^{-3}}$. (In the code, $N_T^{(i)}$ is converted to $\mathrm{mol\,m^{-3}}$ by dividing by Avogadro's number, $6.022\times10^{23}\,\mathrm{mol^{-1}}$; for example, $1.5\times10^{23}\,\mathrm{sites\,m^{-3}}\approx 0.25\,\mathrm{mol\,m^{-3}}$.) These values provide a useful initial computational representation. However, they remain preliminary and should not be interpreted as a unique experimental identification.
-
-The Phase~I results therefore establish the forward FEM framework required for the next stage of the research. The central remaining problem is the inverse mapping from measured TDS response to hydrogen trap parameters. Because the sensitivity studies demonstrate parameter coupling and potential non-uniqueness, this inverse problem requires a controlled synthetic dataset, physically justified experimental conditions, and systematic validation.
-
-The subsequent phase will therefore focus on refinement of the hydrogen charging boundary condition, systematic parameter identifiability analysis, generation of a physics-based synthetic TDS database, and development of a machine-learning framework for inverse identification of hydrogen trap parameters. The final objective is not simply to reproduce an experimental TDS curve, but to establish a physics-informed computational framework in which the inferred trap parameters can be evaluated for physical consistency and uniqueness.
-
+%=======================================
 %================================================
 % REFERENCES
 %================================================

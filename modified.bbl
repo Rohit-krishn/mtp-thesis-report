@@ -146,11 +146,24 @@ Shiyuan Yang, Andr{\'e}s D{\'i}az, Ab{\'i}lio M.~P. De~Jesus, Debiao Meng, and
   information in temperature-programmed hydrogen desorption.
 \newblock {\em Engineering Failure Analysis}, 182:110180, 2025.
 
+\bibitem{SOFRONIS1989317}
+P.~Sofronis and R.M. McMeeking.
+\newblock Numerical analysis of hydrogen transport near a blunting crack tip.
+\newblock {\em Journal of the Mechanics and Physics of Solids}, 37(3):317--350,
+  1989.
+
 \bibitem{MartinezPaneda2020}
 Emilio Mart{\'i}nez-Pa{\~n}eda, Andr{\'e}s D{\'i}az, Louise Wright, and Alan
   Turnbull.
 \newblock Generalised boundary conditions for hydrogen transport at crack tips.
 \newblock {\em Corrosion Science}, 173:108698, 2020.
+
+\bibitem{garcia2024tds}
+Enrique Garc{\'\i}a-Mac{\'\i}as, Zachary~D Harris, and Emilio
+  Mart{\'\i}nez-Pa{\~n}eda.
+\newblock Tds simulator: A matlab app to model temperature-programmed hydrogen
+  desorption.
+\newblock {\em International Journal of Hydrogen Energy}, 94:510--524, 2024.
 
 \bibitem{KIUCHI1983961}
 K.~Kiuchi and R.B. McLellan.
