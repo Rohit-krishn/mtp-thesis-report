@@ -527,7 +527,7 @@ It is now known that sample thickness affects the amount of hydrogen desorption 
 
 He also emphasized that standard Gaussian deconvolution severely miscalculated the trapped to lattice concentration ratio, leading to overestimation or underestimation depending on the heating rate. Another crucial finding was related to the jump frequency associated with trapping ($\nu_L$) and detrapping ($\nu_T$): there was a necessity to keep $\nu_T < \nu_L$ so as to maintain the correct physical sequence where shallowly trapped hydrogen desorbs prior to deeply trapped hydrogen.
 
-The effect of this trapping and detrapping jump frequency was further studied by Cheng et al. (2018)~\cite{Cheng2018}, where he studied under what physical boundaries (jump rate pre-factors $p_0, k_0$, trap binding energy $E_b$, specimen thickness $L$, and matrix diffusivity $D_L$) it was required to guarantee local equilibrium during transient transport. He found that for a 1 mm steel sample with $E_b = 27\text{ kJ/mol}$ and $m = 10^{-3}$, local thermodynamic equilibrium is achieved across the entire specimen when $p_0 \ge 5.0 \times 10^5\text{ s}^{-1}$. At this threshold, simulated McNabb--Foster curves become invariant and overlap perfectly with Oriani equilibrium. For stronger traps ($E_b = 42.14\text{ kJ/mol}$), a higher frequency threshold of $p_0 \ge 2.2 \times 10^8\text{ s}^{-1}$ is required, whereas for deep traps in his case $E_b \ge 67\text{ kJ/mol}$ (at room temperature), it requires $p_0 \ge 1.0 \times 10^{13}\text{ s}^{-1}$. Since $10^{13}\text{ s}^{-1}$ equals the maximum physical attempt (Debye) frequency $\nu$, traps cannot equilibrate with lattice hydrogen at room temperature, effectively making them trapped there.
+The effect of this trapping and detrapping jump frequency was further studied by Cheng et al. (2018)~\cite{Cheng2018}, where he studied under what physical boundaries (jump rate pre-factors $p_0, k_0$, trap binding energy $E_b$, specimen thickness $L$, and matrix diffusivity $D_L$) it was required to guarantee local equilibrium during transient transport. He found that for a 1 mm steel sample with $E_b = 27\text{ kJ/mol}$ and $L = 10^{-3}\text{ m}$, local thermodynamic equilibrium is achieved across the entire specimen when $p_0 \ge 5.0 \times 10^5\text{ s}^{-1}$. At this threshold, simulated McNabb--Foster curves become invariant and overlap perfectly with Oriani equilibrium. For stronger traps ($E_b = 42.14\text{ kJ/mol}$), a higher frequency threshold of $p_0 \ge 2.2 \times 10^8\text{ s}^{-1}$ is required, whereas for deep traps in his case $E_b \ge 67\text{ kJ/mol}$ (at room temperature), it requires $p_0 \ge 1.0 \times 10^{13}\text{ s}^{-1}$. Since $10^{13}\text{ s}^{-1}$ equals the maximum physical attempt (Debye) frequency $\nu$, traps cannot equilibrate with lattice hydrogen at room temperature, effectively making them trapped there.
 
 \begin{figure}[htbp]
     \centering
@@ -1819,7 +1819,7 @@ Doubling the mesh density reduced the peak flux relative error by factors of 4.2
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=\figwidthwide]{mesh_convergence_plot.png}
+    \includegraphics[width=\figwidthwide]{meshindependececonvergenceplot.png}
     \caption{Mesh convergence of the peak flux, relative error and computation time.}
     \label{fig:spatial_mesh_convergence}
 \end{figure}
@@ -1862,7 +1862,7 @@ $\Delta t$ (\text{s}) & \textbf{Peak Flux} & \textbf{Peak Temp} & \textbf{Total 
 }
 \end{table}
 
-Halving the time step reduces peak flux error by factors of $2.1$, $2.3$, and $3.0$, corresponding to an observed temporal convergence order of $1.1\text{ to } 1.6$, consistent with the theoretical $\mathcal{O}(\Delta t)$ first-order accuracy of Backward Euler. Also, at $n_{\mathrm{el}} = 25$, the temporal discretization error ($0.0034\%$ at $\Delta t = 0.5\text{ s}$) is 2 to 3 orders of magnitude smaller than the spatial mesh error ($0.4029\%$). The peak temperature remains identical at $172.9^\circ\text{C}$ for all tested time steps.
+Halving the time step reduces peak flux error by factors of $2.1$, $2.3$, and $3.0$, confirming an observed temporal convergence order of nearly 1, consistent with the theoretical $\mathcal{O}(\Delta t)$ first-order accuracy of Backward Euler. Also, at $n_{\mathrm{el}} = 25$, the temporal discretization error ($0.0034\%$ at $\Delta t = 0.5\text{ s}$) is 2 to 3 orders of magnitude smaller than the spatial mesh error ($0.4029\%$). The peak temperature remains identical at $172.9^\circ\text{C}$ for all tested time steps.
 
 \begin{figure}[htbp]
     \centering
@@ -1895,7 +1895,7 @@ Increasing the binding energy caused the peak temperature to increase strictly l
     \label{fig:sensitivity_binding_energy}
 \end{figure}
 
-The peak height falls monotonically ($18\%, 33\%, 43\%, 51\%$ drop relative to $50\text{ kJ/mol}$). Normalized arc sensitivities between $70$ and $90\text{ kJ/mol}$ are $S_J \approx -0.79$ and $S_T \approx +0.88$. Since higher binding energy broadens the desorption curve, in order to conserve the total amount of hydrogen (that is, the area under the curve), the peak height must drop. The anomalous drop in $H_{\mathrm{des}}$ at $130$ and $150\text{ kJ/mol}$ is a consequence of truncation at $600^\circ\text{C}$ ($24.6\%$ and $70.0\%$ retained), not of weaker trapping. During the $2700\text{ s}$ room-temperature rest hold prior to heating at $50\text{ kJ/mol}$, $17\%$ of trapped hydrogen escapes, thus reducing the total desorbed hydrogen.
+The peak height falls monotonically ($18\%, 33\%, 43\%, 51\%$ drop relative to $50\text{ kJ/mol}$). Since higher binding energy broadens the desorption curve, in order to conserve the total amount of hydrogen (that is, the area under the curve), the peak height must drop. The anomalous drop in $H_{\mathrm{des}}$ at $130$ and $150\text{ kJ/mol}$ is a consequence of truncation at $600^\circ\text{C}$, not of weaker trapping. 
 
 \begin{figure}[htbp]
     \centering
@@ -2057,31 +2057,26 @@ Where the desorption boundary flux is controlled by the transfer coefficient $b(
 \label{tab:boundary_conditions}
 \tablestyle
 \fitwidth{%
-\begin{tabular}{lcccccc}
+\begin{tabular}{lccccc}
 \toprule
-\textbf{Parameter Change} & \textbf{Value} & $J_{\max}$ & $\Delta J_{\max}$ & $\Delta T_{\mathrm{p}}$ & $H_{\mathrm{des}}$ & \textbf{Mid-Plane} \\
- & & ($10^{-4}\text{ ppm/s}$) & ($\%$) & ($\text{K}$) & ($\text{ppm}$) & \textbf{Biot No.} \\
+\textbf{Parameter Change} & \textbf{Value} & $J_{\max}$ & $\Delta J_{\max}$ & $\Delta T_{\mathrm{p}}$ & $H_{\mathrm{des}}$ \\
+ & & ($10^{-4}\text{ ppm/s}$) & ($\%$) & ($\text{K}$) & ($\text{ppm}$) \\
 \midrule
-$k_{\mathrm{pen}} \times 0.01$ & $8 \times 10^3\text{ mol/m}^2/\text{s}$ & $2.8955$ & $+6.1\%$ & $+2.72\text{ K}$ & $1.867$ & $\approx 19$ (Peak) \\
-$k_{\mathrm{pen}} \times 0.1$ & $8 \times 10^4\text{ mol/m}^2/\text{s}$ & $2.7565$ & $+1.0\%$ & $-0.50\text{ K}$ & $1.849$ & $\approx 190$ (Peak) \\
-$k_{\mathrm{pen}} \times 1.0$ (Base) & $8 \times 10^5\text{ mol/m}^2/\text{s}$ & $2.7299$ & $0.0\%$ & $0.00\text{ K}$ & $1.831$ & $\approx 1900$ (Peak) \\
-$k_{\mathrm{pen}} \times 10.0$ & $8 \times 10^6\text{ mol/m}^2/\text{s}$ & $2.7369$ & $+0.3\%$ & $+0.56\text{ K}$ & $1.823$ & $\approx 19000$ (Peak) \\
-$k_{\mathrm{pen}} \times 100.0$ & $8 \times 10^7\text{ mol/m}^2/\text{s}$ & $2.7373$ & $+0.3\%$ & $-0.67\text{ K}$ & $1.819$ & $\approx 190000$ (Peak) \\
+$k_{\mathrm{pen}} \times 0.01$ & $8 \times 10^3\text{ mol/m}^2/\text{s}$ & $2.8955$ & $+6.1\%$ & $+2.72\text{ K}$ & $1.867$ \\
+$k_{\mathrm{pen}} \times 0.1$ & $8 \times 10^4\text{ mol/m}^2/\text{s}$ & $2.7565$ & $+1.0\%$ & $-0.50\text{ K}$ & $1.849$ \\
+$k_{\mathrm{pen}} \times 1.0$ (Base) & $8 \times 10^5\text{ mol/m}^2/\text{s}$ & $2.7299$ & $0.0\%$ & $0.00\text{ K}$ & $1.831$ \\
+$k_{\mathrm{pen}} \times 10.0$ & $8 \times 10^6\text{ mol/m}^2/\text{s}$ & $2.7369$ & $+0.3\%$ & $+0.56\text{ K}$ & $1.823$ \\
+$k_{\mathrm{pen}} \times 100.0$ & $8 \times 10^7\text{ mol/m}^2/\text{s}$ & $2.7373$ & $+0.3\%$ & $-0.67\text{ K}$ & $1.819$ \\
 \midrule
-$E_{\mathrm{bc}} = 5.0\text{ kJ/mol}$ & $0.292\times\text{Base}$ & $2.7392$ & $+0.3\%$ & $+0.11\text{ K}$ & $1.818$ & High ($\mathrm{Bi} \gg 100$) \\
-$E_{\mathrm{bc}} = 22.5\text{ kJ/mol}$ & $1.32\times\text{Base}$ & $2.7448$ & $+0.5\%$ & $-0.50\text{ K}$ & $1.848$ & High ($\mathrm{Bi} \gg 100$) \\
-$E_{\mathrm{bc}} = 28.0\text{ kJ/mol}$ & $1.64\times\text{Base}$ & $2.8225$ & $+3.4\%$ & $-1.61\text{ K}$ & $1.867$ & $\approx 100$ (Peak) \\
+$E_{\mathrm{bc}} = 5.0\text{ kJ/mol}$ & $0.292\times\text{Base}$ & $2.7392$ & $+0.3\%$ & $+0.11\text{ K}$ & $1.818$ \\
+$E_{\mathrm{bc}} = 22.5\text{ kJ/mol}$ & $1.32\times\text{Base}$ & $2.7448$ & $+0.5\%$ & $-0.50\text{ K}$ & $1.848$ \\
+$E_{\mathrm{bc}} = 28.0\text{ kJ/mol}$ & $1.64\times\text{Base}$ & $2.8225$ & $+3.4\%$ & $-1.61\text{ K}$ & $1.867$ \\
 \bottomrule
 \end{tabular}%
 }
 \end{table}
 
-For baseline conditions, $\mathrm{Bi} \approx 380$ at $293\text{ K}$, $\approx 1900$ at peak temperature ($446\text{ K}$), and $\approx 8500$ at $873\text{ K}$. Because $\mathrm{Bi} \gg 1$, the surface resistance is negligible, and the Robin condition accurately enforces a Dirichlet state ($\theta_{\mathrm{L}} \approx 0$).
-
-Reducing $k_{\mathrm{pen}}$ by $100\times$ drops $\mathrm{Bi}$ to $\approx 19$ at peak temperature, causing surface resistance to delay desorption ($+6.1\%$ flux rise, $+2.72\text{ K}$ thermal shift), but it is still well over 1. For all cases where $\mathrm{Bi} \ge 100$, peak flux changes are found to be $< 0.3\%$ and peak temperature shifts by $< 0.6\text{ K}$, which lies within numerical discretization error ($0.40\%$ at $n_{\mathrm{el}}=25$).
-
-Raising $E_{\mathrm{bc}}$ to $28\text{ kJ/mol}$ reduces $b$ by a factor of $0.011$ at $293\text{ K}$, but only by about $0.05$ at $450\text{ K}$. However, $E_{\mathrm{bc}}$ still ensures that the Biot number scales with temperature as intended. Thus, it can be observed that for $\mathrm{Bi} \gtrsim 100$, the values are converged, and fixing a sufficiently high value does not affect the solution significantly.
-
+Changing $k_{\mathrm{pen}}$ over a 10,000-fold range changes the peak flux by approximately $6.1\%$ and the peak temperature by $2.72\,\mathrm{K}$, while varying $E_{\mathrm{bc}}$ from $5$ to $28\,\mathrm{kJ/mol}$ changes the peak flux by at most $3.4\%$ and the peak temperature by at most $1.61\,\mathrm{K}$. Thus, the TDS curve doesnt depend on $k_{\mathrm{pen}}$ and $E_{\mathrm{bc}}$ values.
 \subsection{Effect of Specimen Thickness (\texorpdfstring{$L$}{L})}
 
 Thickness was varied across four orders of magnitude ($0.063$ to $630\text{ mm}$) around the baseline ($6.3\text{ mm}$).
@@ -2143,7 +2138,7 @@ $t_{\mathrm{rest}}$ & $J_{\max}$ & $T_{\mathrm{p}}$ & $H_{\mathrm{des}}$ & $H_{\
 }
 \end{table}
 
-During the room-temperature resting period, it was seen that mobile hydrogen in the lattice rapidly diffused out to the surface and then desorbed due to the steep concentration near the boundary. As the near-surface lattice sites are emptied, it can be seen that shallow traps ($|\Delta H| \le 62\text{ kJ/mol}$) start detrapping so as to maintain local thermodynamic equilibrium. Whereas deep traps ($|\Delta H| \ge 80\text{ kJ/mol}$) remain completely intact because room-temperature thermal energy ($RT \approx 2.44\text{ kJ/mol}$) is insufficient to overcome their detrapping barriers. It is seen that the total rest-time hydrogen loss scales with $\text{Loss} \propto t_{\mathrm{rest}}^{0.47}$ (approx. $t^{0.5}$), which is characteristic of transient surface diffusion. Increasing $t_{\mathrm{rest}}$ from $5\text{ min}$ ($300\text{ s}$) to $600\text{ s}$ alters the main peak height ($J_{\max}$) by only $-0.34\%$ and shifts the peak temperature ($T_{\mathrm{p}}$) by only $+0.3\text{ K}$. The total desorbed hydrogen during the heating drops slightly from $1.868\text{ ppm}$ ($5\text{ min}$) to $1.823\text{ ppm}$ ($60\text{ min}$), giving a $2.4\%$ reduction. The total rest time loss ranges from $1.05\%$ to $3.34\%$.
+During the room-temperature resting period, it was seen that mobile hydrogen in the lattice rapidly diffused out to the surface and then desorbed due to the steep concentration near the boundary. As the near-surface lattice sites are emptied, it can be seen that shallow traps ($|\Delta H| \le 62\text{ kJ/mol}$) start detrapping so as to maintain local thermodynamic equilibrium. Whereas deep traps ($|\Delta H| \ge 80\text{ kJ/mol}$) remain completely intact because room-temperature thermal energy ($RT \approx 2.44\text{ kJ/mol}$) is insufficient to overcome their detrapping barriers.  Increasing $t_{\mathrm{rest}}$ from $5\text{ min}$ ($300\text{ s}$) to $600\text{ s}$ alters the main peak height ($J_{\max}$) by only $-0.34\%$ and shifts the peak temperature ($T_{\mathrm{p}}$) by only $+0.3\text{ K}$. The total desorbed hydrogen during the heating drops slightly from $1.868\text{ ppm}$ ($5\text{ min}$) to $1.823\text{ ppm}$ ($60\text{ min}$), giving a $2.4\%$ reduction. The total rest time loss ranges from $1.05\%$ to $3.34\%$.
 
 \begin{figure}[htbp]
     \centering
@@ -2427,6 +2422,8 @@ A possible framework is a neural network that is capable of this classification 
 \label{sec:workflow}
 
 The FEM model is therefore not merely a data generator. It defines the physical assumptions under which the machine-learning inverse mapping is learned.
+So it is proposed to generate synthethic data from the developed FEM model for training the neural network.The neural netwrok will be capable of performing three task as follows: Classification of the TDS spectrum into one of the physical regimes, regression of trap binding energies and regression of trap densities.
+
 
 %================================================
 % CHAPTER 6
@@ -2445,7 +2442,7 @@ The principal work completed during Phase I can be summarised as follows:
   \item The model was implemented using the finite-element method in MATLAB.
   \item Four discrete trap populations were incorporated into the transient kinetic formulation.
   \item Initial trap populations were established using an Oriani equilibrium partition at the initial temperature.
-  \item A temperature-programmed desorption calculation was implemented.
+  \item A numerical simulated TDS curve was developed.
   \item Mesh and time-step independence studies were performed.
   \item Sensitivity studies were conducted for trap binding energy, trap density, initial hydrogen concentration, lattice diffusion parameters, surface penalty parameters, specimen thickness, rest time, and heating rate.
   \item A preliminary comparison with an experimental X65 TDS response was performed using an approximate four-trap parameter set.
