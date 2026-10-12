@@ -9,9 +9,13 @@
 %================================================
 % Fonts, encoding, microtypography
 %================================================
+% newtxtext + newtxmath: complete, uniform Times New Roman for all text and math.
+% amsmath must be loaded first; amssymb is omitted as newtxmath provides those symbols.
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage{mathptmx}          % Times text and matching Times-based math fonts
+\usepackage{amsmath}                     % load before newtxmath to avoid conflicts
+\usepackage{newtxtext}                   % Times New Roman text (body, headings, captions)
+\usepackage{newtxmath}                   % Times-matched math fonts, includes AMS symbols
 \usepackage{microtype}
 
 %================================================
@@ -24,7 +28,6 @@
 %================================================
 % Mathematics, graphics, tables, lists
 %================================================
-\usepackage{amsmath,amssymb}
 \usepackage{graphicx}
 \usepackage{subcaption}
 \graphicspath{{./}{figures/}}
@@ -53,7 +56,8 @@
 % Floats and captions
 %================================================
 \usepackage[section]{placeins}                  % floats do not drift past a \section
-\usepackage[font=small,labelfont=bf,labelsep=period,skip=6pt]{caption}
+% font={normalfont,small}: captions use the same Times New Roman as the body.
+\usepackage[font={normalfont,small},labelfont=bf,labelsep=period,skip=6pt]{caption}
 \captionsetup[figure]{position=below}
 \captionsetup[table]{position=above}
 \usepackage{subcaption}
@@ -532,7 +536,7 @@ The effect of this trapping and detrapping jump frequency was further studied by
     \label{fig:cheng_p0}
 \end{figure}
 
-Drexler~\cite{Drexler2019} modeled hydrogen transport across a 1 mm thick disc specimen using a multi-trap continuum framework; he assessed local thermodynamic equilibrium between lattice sites and $n_t$ independent trap populations. He implemented it in the commercial finite element code 3DS ABAQUS using custom user element subroutines (UEL) and standard 1D heat/mass transfer elements (DC1D2). He then coupled ABAQUS with a Python optimization pipeline using \texttt{scipy.optimize} (Scipy.Optimize.Leastsq / Nelder--Mead algorithm). Drexler et al.~\cite{Drexler2019} calibrated and validated their framework on three Fe-C-Ti model alloys containing 0.1, 0.2, and 0.3 wt\% C with stoichiometric Ti additions. His study was on how heat treatment changes the microstructure of an Fe-C-Ti alloy and how it changes the trap environment. His first quenched alloy produced a martensitic structure with lath boundaries that acted as weak traps; then he tempered the material at $600^\circ\text{C}$ for 1 hour, which causes fine TiC precipitates to form. This introduces new interfaces and carbon vacancies. He was able to observe 5 different types of traps ranging from 15 kJ/mol to 110 kJ/mol, which he then compared with literature first-principle calculations and characterized. He also was able to see the 5th trap disappearing at prolonged 2 hours of tempering, which he attributed to carbon vacancies disappearing due to diffusion of carbon atoms. Thus, he was able to effectively quantify several trap features by numerically modeling the TDS spectrum.
+Drexler~\cite{Drexler2019} modeled hydrogen transport across a 1 mm thick disc specimen using a multi-trap continuum framework; he assessed local thermodynamic equilibrium between lattice sites and $n_t$ independent trap populations. He implemented it in the commercial finite element code 3DS ABAQUS using custom user element subroutines (UEL) and standard 1D heat/mass transfer elements (DC1D2). He then coupled ABAQUS with a Python optimization pipeline using scipy.optimize (Scipy.Optimize.Leastsq / Nelder--Mead algorithm). Drexler et al.~\cite{Drexler2019} calibrated and validated their framework on three Fe-C-Ti model alloys containing 0.1, 0.2, and 0.3 wt\% C with stoichiometric Ti additions. His study was on how heat treatment changes the microstructure of an Fe-C-Ti alloy and how it changes the trap environment. His first quenched alloy produced a martensitic structure with lath boundaries that acted as weak traps; then he tempered the material at $600^\circ\text{C}$ for 1 hour, which causes fine TiC precipitates to form. This introduces new interfaces and carbon vacancies. He was able to observe 5 different types of traps ranging from 15 kJ/mol to 110 kJ/mol, which he then compared with literature first-principle calculations and characterized. He also was able to see the 5th trap disappearing at prolonged 2 hours of tempering, which he attributed to carbon vacancies disappearing due to diffusion of carbon atoms. Thus, he was able to effectively quantify several trap features by numerically modeling the TDS spectrum.
 
 One of the important factors that comes into the picture while numerical modeling is boundary conditions. The widely employed boundary condition was the Dirichlet boundary condition. Traditional crack tip hydrogen models such as Sofronis and McMeeking (1989) rely on prescribing a fixed, constant lattice hydrogen concentration ($C_L = C_0$) at the crack faces. This assumes instantaneous infinite-rate electrochemical surface reactions and ignores the real adsorption-absorption kinetics operating at the metal-electrolyte interface. Also, the fixed boundary conditions are independent of stress, failing to capture how elevated crack tip hydrostatic stress enhances chemical potential and draws higher surface fluxes into the fracture zone. They also said that if we assume Conventional Plasticity ($J_2$ Flow Theory) near the crack tip, it cannot account for the huge strain gradients, and since geometrically necessary dislocations (GNDs) are directly proportional to these large strain gradients, this means more traps for hydrogen. These GNDs also elevate hydrostatic stress beyond classical limits, which strongly affects the hydrogen accumulation. Mart\'{\i}nez-Pa\~{n}eda et al.~\cite{MartinezPaneda2020} implemented a fully coupled, multi-physics finite element framework in 2D plane strain (built in ABAQUS via custom subroutines). The model solved the mechanical equilibrium equation, transient McNabb--Foster mass transport, and trapping kinetic PDEs concurrently, taking displacements ($u, v$), lattice hydrogen concentration ($C_L$), and trap occupancy ($\theta_r$) as nodal degrees of freedom. They replaced Dirichlet constant concentration schemes with Neumann generalized absorption flux boundary conditions:
 \begin{equation}
@@ -2254,9 +2258,7 @@ The McNabb--Foster FEM solver was then applied to our measured experimental data
 \centering
 \caption{Comparison of Experimental and Simulated Features for X65 Pipeline Steel}
 \label{tab:x65_comparison}
-\footnotesize
-\renewcommand{\arraystretch}{1.2}
-\setlength{\tabcolsep}{4pt}
+\tablestyle
 \begin{tabular}{L{2.4cm} L{3.8cm} L{3.8cm} L{2.9cm}}
 \toprule
 \textbf{Feature} & \textbf{Experimental Observation (Visual)} & \textbf{Simulated Output (Computed)} & \textbf{Quantitative Difference} \\
